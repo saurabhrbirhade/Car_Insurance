@@ -5,11 +5,11 @@ import utils
 app = Flask(__name__)
 @ app.route("/")
 def home():
-    return "Welcome"
+    return render_template('home.html')
 
-@ app.route("/predict",methods = ['POST','GET'])
+@ app.route("/predict",methods = ['GET'])
 def predict():
-    data    = request.form
+    data    = request.args
     policy_tenure = float(data["policy_tenure"])
     age_of_car    = float(data["age_of_car"])
     age_of_policyholder   = float(data["age_of_policyholder"])
@@ -66,7 +66,8 @@ def predict():
        is_driver_seat_height_adjustable, is_day_night_rear_view_mirror,
        is_ecw, is_speed_alert, ncap_rating)
     prediction = predictor.predict()
-    if prediction[0] == 1:
+    
+    if prediction == 1:
         return "Policyholder will claim in upcoming 6 months"
     else:
         return "Policyholder will not claim"

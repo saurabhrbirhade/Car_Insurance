@@ -149,5 +149,13 @@ class classifier_model():
         max_power_val = float(max_power_list[1].replace('rpm','')) / float(max_power_list[0].replace('bhp',''))
         details[-1] = max_power_val
 
-        prediction = self.RFmodel.predict([details])
-        return prediction
+        probabilities = self.RFmodel.predict_proba([details])[:,0]
+        if probabilities >=0.583:
+            return 0
+        else:
+            return 1
+
+
+        # prediction = self.RFmodel.predict([details])
+
+        # return prediction
